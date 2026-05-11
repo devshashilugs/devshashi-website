@@ -609,7 +609,71 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
       </div>
     </div>
   </div>
-</section>
+
+  <!-- TEST CERTIFICATE IMAGES -->
+  <div style="margin-top:3rem;">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:2rem;">
+      <div style="width:3px;height:28px;background:var(--gold);border-radius:1px;flex-shrink:0;"></div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--white);font-weight:700;">Quality Certificates & Test Reports</h3>
+    </div>
+    
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;">
+      <!-- ISO CERTIFICATE -->
+      <div style="background:var(--dark2);border:0.5px solid var(--border);padding:1.5rem;border-radius:2px;">
+        <div style="margin-bottom:1.2rem;border-radius:2px;overflow:hidden;border:0.5px solid var(--border2);">
+          <img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/ISO.png" style="width:100%;height:auto;display:block;" alt="ISO 9001:2015 Certificate"/>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:0.6rem;">🏆 ISO 9001:2015</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Certificate No: 23ACAE2404Q | Valid Until: 12/12/2026</div>
+        </div>
+      </div>
+
+      <!-- TENSILE STRENGTH CERTIFICATE -->
+      <div style="background:var(--dark2);border:0.5px solid var(--border);padding:1.5rem;border-radius:2px;">
+        <div style="margin-bottom:1.2rem;border-radius:2px;overflow:hidden;border:0.5px solid var(--border2);">
+          <img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/TENSILE.png" style="width:100%;height:auto;display:block;" alt="Tensile Strength Test Report"/>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:0.6rem;">📋 Tensile Strength Test</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Standard: IS 1608-2005 | Report ID: MECH-055056</div>
+        </div>
+      </div>
+
+      <!-- CONDUCTIVITY CERTIFICATE -->
+      <div style="background:var(--dark2);border:0.5px solid var(--border);padding:1.5rem;border-radius:2px;">
+        <div style="margin-bottom:1.2rem;border-radius:2px;overflow:hidden;border:0.5px solid var(--border2);">
+          <img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/CONDUCTIVITY.png" style="width:100%;height:auto;display:block;" alt="Conductivity Test Report"/>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:0.6rem;">⚡ Electrical Conductivity Test</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Standard: IS 5082:1998 | Report ID: TRA-007152</div>
+        </div>
+      </div>
+
+      <!-- FLATTENING TEST CERTIFICATE -->
+      <div style="background:var(--dark2);border:0.5px solid var(--border);padding:1.5rem;border-radius:2px;">
+        <div style="margin-bottom:1.2rem;border-radius:2px;overflow:hidden;border:0.5px solid var(--border2);">
+          <img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/FLATENING.png" style="width:100%;height:auto;display:block;" alt="Flattening Test Report"/>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:0.6rem;">🔨 Flattening Test</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Standard: IS 2328-2005 | Report ID: MECH-067143</div>
+        </div>
+      </div>
+
+      <!-- SPECTRO ANALYSIS CERTIFICATE -->
+      <div style="background:var(--dark2);border:0.5px solid var(--border);padding:1.5rem;border-radius:2px;">
+        <div style="margin-bottom:1.2rem;border-radius:2px;overflow:hidden;border:0.5px solid var(--border2);">
+          <img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/SPECTRO.png" style="width:100%;height:auto;display:block;" alt="Spectro Analysis Report"/>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text);">
+          <div style="color:var(--gold);font-weight:600;margin-bottom:0.6rem;">🔬 Aluminium Alloy Composition</div>
+          <div style="font-size:0.75rem;color:var(--muted);">Standard: ASTM-E1251-2011 | Report ID: TRA-256639</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- VIDEO -->
 <section id="video">
@@ -723,29 +787,17 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
         <div style="font-size:0.8rem;color:var(--muted);margin-top:2px;">Sunday: Closed</div>
       </div>
     </div>
-    <form class="contact-form" onsubmit="handleSubmit(event)">
-      <div class="form-row">
-        <input type="text" placeholder="Your Name" required/>
-        <input type="text" placeholder="Company Name"/>
-      </div>
-      <div class="form-row">
-        <input type="email" placeholder="Email Address" required/>
-        <input type="tel" placeholder="Phone / WhatsApp"/>
-      </div>
-      <select>
-        <option value="" disabled selected>Product of Interest</option>
-        <option>Aluminium Lugs (DSA™)</option>
-        <option>HD-LUG™ Brand Products</option>
-        <option>Joining Sleeves</option>
-        <option>Cable Glands</option>
-        <option>Insulated Terminal Connectors</option>
-        <option>Pin / Needle Ferrules</option>
-        <option>Extruded Sections / Profiles</option>
-        <option>Custom / OEM Products</option>
-        <option>Other</option>
-      </select>
-      <textarea placeholder="Describe your requirement — product type, size range, quantity, grade, delivery location, etc."></textarea>
-      <button type="submit">Send Enquiry ↗</button>
+    <style>
+      /* Hide Google Account info on embedded form */
+      iframe[src*="docs.google.com/forms"] {
+        pointer-events: none;
+      }
+      .goog-inline-block {
+        display: none !important;
+      }
+    </style>
+    <form style="width:100%;">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfHY11aEHlgeJcmgZLdogWtPnsTB9jvg2x6d2Kug1jjf-HVTw/viewform?embedded=true" width="100%" height="800" frameborder="0" marginheight="0" marginwidth="0" style="border:none;border-radius:2px;pointer-events:auto;">Loading…</iframe>
     </form>
   </div>
 </section>
