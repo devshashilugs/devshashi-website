@@ -18,12 +18,10 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;}
 
-/* ── SCROLLBAR ── */
 ::-webkit-scrollbar{width:4px;}
 ::-webkit-scrollbar-track{background:var(--dark);}
 ::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px;}
 
-/* ── NAV ── */
 nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 4rem;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,12,16,0.95);backdrop-filter:blur(20px);border-bottom:0.5px solid var(--border);}
 .nav-brand{display:flex;align-items:center;gap:12px;}
 .nav-brand-text{font-family:'Cormorant Garamond',serif;}
@@ -37,7 +35,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 4rem;height:70px;d
 .nav-cta{background:var(--gold);color:var(--dark);padding:8px 20px;font-size:0.78rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;border-radius:2px;transition:background 0.2s;}
 .nav-cta:hover{background:var(--gold2);}
 
-/* ── HERO ── */
 .hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:8rem 4rem 4rem;overflow:hidden;background:var(--dark);}
 .hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(201,151,42,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,151,42,0.04) 1px,transparent 1px);background-size:60px 60px;opacity:0.6;}
 .hero-glow{position:absolute;top:-20%;right:-10%;width:600px;height:600px;background:radial-gradient(circle,rgba(201,151,42,0.08) 0%,transparent 70%);pointer-events:none;}
@@ -62,7 +59,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 4rem;height:70px;d
 .hero-stat strong{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold2);display:block;line-height:1;}
 .hero-stat span{font-size:0.7rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;display:block;}
 
-/* ── BRANDS BANNER ── */
 .brands-bar{background:var(--dark2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);padding:1.2rem 4rem;display:flex;align-items:center;gap:3rem;flex-wrap:wrap;}
 .brands-label{font-size:0.65rem;color:var(--muted);letter-spacing:0.2em;text-transform:uppercase;font-weight:500;flex-shrink:0;}
 .brands-divider{width:1px;height:30px;background:var(--border);flex-shrink:0;}
@@ -75,7 +71,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 4rem;height:70px;d
 .cert-pill.iec{background:rgba(201,151,42,0.1);border:0.5px solid var(--border);color:var(--gold2);}
 .cert-pill.msme{background:rgba(39,160,101,0.1);border:0.5px solid var(--green-border);color:var(--green2);}
 
-/* ── SECTIONS ── */
 section{padding:6rem 4rem;}
 .s-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:1rem;}
 .s-line{width:30px;height:1px;background:var(--gold);}
@@ -84,7 +79,6 @@ section{padding:6rem 4rem;}
 .s-title em{color:var(--gold2);font-style:italic;}
 .s-sub{font-size:0.95rem;color:var(--muted);max-width:560px;line-height:1.85;font-weight:300;margin-bottom:3rem;}
 
-/* ── ABOUT ── */
 #about{background:var(--dark2);}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
 .about-founder-card{background:var(--dark3);border:0.5px solid var(--border);padding:2rem;border-radius:2px;margin-bottom:1.5rem;position:relative;overflow:hidden;}
@@ -104,7 +98,6 @@ section{padding:6rem 4rem;}
 .about-card h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--white);margin-bottom:0.3rem;}
 .about-card p{font-size:0.8rem;color:var(--muted);line-height:1.6;}
 
-/* ── CLIENTS ── */
 #clients{background:var(--dark);}
 .clients-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border2);border:0.5px solid var(--border2);}
 .client-card{background:var(--dark2);padding:2rem 1.5rem;text-align:center;transition:background 0.2s;}
@@ -117,7 +110,6 @@ section{padding:6rem 4rem;}
 .client-badge.pvt{background:rgba(201,151,42,0.1);border:0.5px solid var(--border);color:var(--gold);}
 .clients-note{margin-top:1.5rem;font-size:0.8rem;color:var(--muted);font-style:italic;text-align:center;}
 
-/* ── PRODUCTS ── */
 #products{background:var(--dark2);}
 .products-tabs{display:flex;gap:1px;background:var(--border2);border:0.5px solid var(--border2);margin-bottom:2rem;width:fit-content;}
 .ptab{padding:8px 20px;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;cursor:pointer;background:var(--dark3);color:var(--muted);border:none;transition:all 0.2s;}
@@ -133,7 +125,6 @@ section{padding:6rem 4rem;}
 .prod-tags{display:flex;gap:4px;margin-top:0.6rem;flex-wrap:wrap;}
 .ptag{font-size:0.6rem;padding:2px 6px;border:0.5px solid var(--border2);color:var(--gold);letter-spacing:0.06em;text-transform:uppercase;border-radius:1px;}
 
-/* ── CERTIFICATIONS ── */
 #certifications{background:var(--dark);}
 .cert-wall{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem;}
 .cert-card{background:var(--dark2);border:0.5px solid var(--border);padding:2rem;border-radius:2px;position:relative;overflow:hidden;transition:border-color 0.2s;}
@@ -152,7 +143,6 @@ section{padding:6rem 4rem;}
 .cert-row .lbl{color:var(--muted);}
 .cert-row .val{color:var(--text);font-weight:500;text-align:right;}
 
-/* ── TEST RESULTS ── */
 .test-section{margin-top:3rem;}
 .test-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--white);margin-bottom:1.5rem;}
 .test-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
@@ -169,7 +159,6 @@ section{padding:6rem 4rem;}
 .lab-badge.iso{background:rgba(39,96,197,0.15);border:0.5px solid rgba(39,96,197,0.3);color:#6B9FE8;}
 .lab-badge.bis{background:rgba(201,151,42,0.1);border:0.5px solid var(--border);color:var(--gold);}
 
-/* ── VIDEO ── */
 #video{background:var(--dark2);}
 .video-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;}
 .video-embed{border-radius:4px;overflow:hidden;border:0.5px solid var(--border);aspect-ratio:16/9;}
@@ -182,7 +171,6 @@ section{padding:6rem 4rem;}
 .staff-role{font-size:0.72rem;color:var(--muted);letter-spacing:0.06em;}
 .staff-tag{margin-left:auto;font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;border:0.5px solid var(--border);padding:2px 8px;border-radius:1px;}
 
-/* ── SUSTAINABILITY ── */
 #sustainability{background:var(--dark);border-top:0.5px solid var(--green-border);border-bottom:0.5px solid var(--green-border);position:relative;overflow:hidden;}
 #sustainability::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 0% 50%,rgba(39,160,101,0.04) 0%,transparent 60%);}
 .eco-inner{position:relative;z-index:1;}
@@ -201,7 +189,6 @@ section{padding:6rem 4rem;}
 .eco-card p{font-size:0.8rem;color:var(--muted);line-height:1.65;}
 .eco-badge{display:inline-block;margin-top:0.8rem;font-size:0.65rem;padding:2px 8px;border-radius:1px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;background:rgba(39,160,101,0.15);border:0.5px solid var(--green-border);color:var(--green2);}
 
-/* ── CONTACT ── */
 #contact{background:var(--dark2);}
 .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
 .contact-cards{display:flex;flex-direction:column;gap:1rem;}
@@ -223,7 +210,6 @@ section{padding:6rem 4rem;}
 .contact-form button{background:var(--gold);color:var(--dark);border:none;padding:12px 2rem;border-radius:2px;font-family:'Outfit',sans-serif;font-size:0.82rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:background 0.2s;align-self:flex-start;}
 .contact-form button:hover{background:var(--gold2);}
 
-/* ── FOOTER ── */
 footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5rem 4rem;}
 .footer-inner{display:flex;justify-content:space-between;align-items:flex-start;gap:2rem;flex-wrap:wrap;}
 .footer-brand{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold2);font-weight:600;margin-bottom:0.4rem;}
@@ -394,24 +380,24 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
   <p class="clients-note">* Clients served under our predecessor company Devshashi Aluminium, E-631 Phase 1, RIICO Industrial Area, Bhiwadi</p>
 </section>
 
-<!-- PRODUCTS -->
+<!-- PRODUCTS WITH IMAGES -->
 <section id="products">
   <div class="s-eyebrow"><div class="s-line"></div><span class="s-tag">Our Product Range</span></div>
   <h2 class="s-title">What We <em>Manufacture</em></h2>
   <p class="s-sub">A comprehensive range of aluminium and copper lugs, joining sleeves, cable glands, terminal ferrules and extruded profiles — all manufactured under our proprietary brands DSA™ and HD-LUG™ to IS, IEC and ASTM standards.</p>
 
-  <!-- PRODUCT PHOTOS STRIP -->
+  <!-- PRODUCT PHOTOS GRID -->
   <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:3rem;">
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020608_WhatsApp_Image_2026-05-08_at_02_18_10.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020613_WhatsApp_Image_2026-05-08_at_02_18_07.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020612_WhatsApp_Image_2026-05-08_at_02_18_05__1_.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020609_WhatsApp_Image_2026-05-08_at_02_18_11__1_.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020612_WhatsApp_Image_2026-05-08_at_02_18_04.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020609_WhatsApp_Image_2026-05-08_at_02_18_12__1_.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020611_WhatsApp_Image_2026-05-08_at_02_18_13.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020613_WhatsApp_Image_2026-05-08_at_02_18_06__1_.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020611_WhatsApp_Image_2026-05-08_at_02_18_04__1_.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
-    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="/mnt/user-data/uploads/1778187020614_WhatsApp_Image_2026-05-08_at_02_18_08.jpeg" style="width:100%;height:100%;object-fit:cover;" alt=""/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.03.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.04.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.05%20(1).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.05%20(2).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.05.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.06.jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.07%20(1).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.08%20(1).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.08%20(2).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
+    <div style="border-radius:3px;overflow:hidden;border:0.5px solid var(--border2);aspect-ratio:1;"><img src="https://raw.githubusercontent.com/devshashilugs/devshashi-website/main/WhatsApp%20Image%202026-05-08%20at%2002.18.10%20(1).jpeg" style="width:100%;height:100%;object-fit:cover;" alt="Product"/></div>
   </div>
 
   <!-- ALUMINIUM LUGS -->
@@ -532,7 +518,7 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
       <div class="cert-num">Certificate No. 23ACAE2404Q</div>
       <div class="cert-rows">
         <div class="cert-row"><span class="lbl">Issued By</span><span class="val">IQCS UK / UKAC</span></div>
-        <div class="cert-row"><span class="lbl">Scope</span><span class="val">Mfr. of Al & Cu Products</span></div>
+        <div class="cert-row"><span class="lbl">Scope</span><span class="val">Manufacturer of Al & Cu Products</span></div>
         <div class="cert-row"><span class="lbl">Issued</span><span class="val">13/12/2023</span></div>
         <div class="cert-row"><span class="lbl">Valid Until</span><span class="val">12/12/2026</span></div>
         <div class="cert-row"><span class="lbl">Verify At</span><span class="val">ukacert.co.uk</span></div>
@@ -649,7 +635,7 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
           <span class="staff-tag">▶ Video</span>
         </div>
         <div style="padding:1rem;background:var(--dark2);border:0.5px solid var(--border2);border-radius:2px;font-size:0.78rem;color:var(--muted);line-height:1.6;">
-          💡 <strong style="color:var(--text)">To embed staff videos:</strong> Upload the 3 video files (NANDANI.mp4, PRITI.mp4, SHRUTI.mp4) to your YouTube channel and share the links — I'll embed them directly here.
+          💡 <strong style="color:var(--text);">To embed staff videos:</strong> Upload the 3 video files (NANDANI.mp4, PRITI.mp4, SHRUTI.mp4) to your YouTube channel and share the links — I'll embed them directly here.
         </div>
       </div>
     </div>
@@ -784,7 +770,7 @@ footer{background:var(--dark);border-top:0.5px solid var(--border2);padding:2.5r
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 Devshashi Extrusion and Lugs. All rights reserved. Proprieter: Abhishek Jain.</p>
+    <p>© 2025 Devshashi Extrusion and Lugs. All rights reserved. Proprietor: Abhishek Jain.</p>
     <p>MSME: UDYAM-RJ-02-0072204 · IEC: AFSPJ9609R · ISO: 23ACAE2404Q</p>
   </div>
 </footer>
