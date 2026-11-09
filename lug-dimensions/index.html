@@ -103,7 +103,22 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .drawing p{font-size:14px;color:var(--muted);margin-top:8px;text-align:center}
 .zoom .sc .zsvg{background:var(--card);width:100%;min-height:100%;padding:8px}
 .zoom .sc.big .zsvg{width:250%}
-.zoom .sc .zsvg[hidden],.zoom .sc img[hidden]{display:none}
+.zoom .sc .zsvg[hidden],.xcard{width:980px;background:#fff;color:#14171c;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Devanagari",sans-serif;--card:#fff;--ink:#14171c;--muted:#5d6470;--line:#dcd8cf;--dim:#c2185b;--bar:#1f2937;--bar-ink:#fff}
+.xcard.al{--fill:#e6eef6} .xcard.cu{--fill:#f8e9e0}
+.xhead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;padding:22px 28px;color:#fff}
+.xcard.al .xhead{background:#3d6f9e} .xcard.cu .xhead{background:#b4572a}
+.xbig{font-size:54px;font-weight:900;line-height:1}
+.xname{font-size:22px;font-weight:700;margin-top:6px}.xname span{display:block;font-weight:400;font-size:20px;opacity:.9}
+.xchips{display:flex;flex-direction:column;gap:8px;align-items:flex-end}.xchips span{background:rgba(255,255,255,.22);border-radius:10px;padding:6px 14px;font-weight:800;font-size:22px;white-space:nowrap}
+.xblock{padding:10px 28px 6px;border-bottom:2px solid #eee}
+.xopt{font-size:22px;font-weight:800;margin:10px 0 0;color:#14171c}
+.xdwg .dwg{max-height:720px;margin:0 auto}
+.xgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 14px}
+.xv{border:1.5px solid #dcd8cf;border-radius:10px;padding:8px 12px}
+.xl{font-size:15px;font-weight:700;color:#14171c}.xl b{color:#c2185b}.xl span{display:block;font-weight:400;color:#5d6470;font-size:14px}
+.xn{font-size:30px;font-weight:900;font-variant-numeric:tabular-nums;margin-top:2px}.xn small{font-size:15px;color:#5d6470;font-weight:700}
+.xfoot{padding:12px 28px 18px;font-size:15px;color:#5d6470;display:grid;gap:3px}.xsrc{font-weight:700;color:#14171c}
+.zoom .sc img[hidden]{display:none}
 .foot{font-size:14px;color:var(--muted);background:var(--card);border-radius:14px;padding:12px 14px}
 .navrow{display:flex;gap:10px;margin:14px 0}
 .navrow button{flex:1;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:14px;font-weight:800;font-size:17px}
@@ -341,6 +356,43 @@ function detail(p,i){
     <div class="foot">Material: ${esc(p.material)} · All sizes in mm · Tolerance ±5%${p.note?' · '+esc(p.note):''}</div>
   </div>`;
 }
+
+// ---------- EXPORT CARD (images for ITEM MASTER) ----------
+// renderCard(productId, [rowIndexes], {hideBolt}) returns one self-contained card with the drawing and every value.
+window.renderCard = function(pid, idxs, opts){
+  opts = opts || {}; const p = byId[pid], d = K[p.kind], multi = idxs.length > 1;
+  const hide = new Set(['pkg','PPK']); if (opts.hideBolt) hide.add('bolt');
+  const showCat = !opts.hideBolt || multi;
+  const r0 = p.rows[idxs[0]];
+  const notes = new Set();
+  const block = (i, n) => {
+    const r = p.rows[i];
+    const ks = [...d.key.filter(k=>k!=='WALL'||hasWall(p)), ...d.order.filter(k=>!d.key.includes(k))];
+    if (hasWeight(p)) ks.push('WT');
+    const items = ks.filter(k=>!hide.has(k)).map(k=>{
+      const v = val(p,r,k); if (v===undefined || v==null) return '';
+      const [en,hi,sym] = lab(p.kind,k);
+      if (k==='WALL') notes.add('T (wall thickness) = (OD − ID) ÷ 2');
+      if ((k==='RT'||k==='ROD') && !(ringThick(r)&&ringThick(r).src==='cat')) notes.add('≈ Sheet thickness T is an approximate standard value (not printed in the catalogue). Check before production.');
+      if (k==='WT') notes.add('≈ Weight is estimated from the dimensions' + (approxT(p,r)?(p.kind==='pin'?' (pin assumed round, rough)':' (uses approximate sheet thickness)'):'') + '. Check by weighing.');
+      const approx = (k==='WT') || ((k==='RT'||k==='ROD') && !(ringThick(r)&&ringThick(r).src==='cat'));
+      return `<div class="xv"><div class="xl">${esc(en)}${sym?` <b>${esc(sym)}</b>`:''}<span>${esc(hi)}</span></div><div class="xn">${approx?'≈ ':''}${esc(v)}${NOUNIT.has(k)?'':' <small>mm</small>'}</div></div>`;
+    }).join('');
+    const optHead = multi ? `<div class="xopt">Option ${n+1} of ${idxs.length}${p.kind==='reducer'?` · Pin øD ${esc(r.D)} · D-1 ${esc(r.D1)}`:` · øA ${esc(r.A)} · øC ${esc(r.C)}`}${showCat?` · Cat No. ${esc(r.cat)}`:''}</div>` : '';
+    return `<div class="xblock">${optHead}<div class="xdwg">${drawProduct(p,r,true,{hideBolt:!!opts.hideBolt})}</div><div class="xgrid">${items}</div></div>`;
+  };
+  const chips = [];
+  if (!multi && showCat) chips.push(`Cat No. ${esc(r0.cat)}`);
+  if (!multi && !opts.hideBolt && r0.bolt) chips.push(`Bolt ${esc(r0.bolt)}`);
+  if (r0.type && !multi) chips.push(`Type ${esc(r0.type)}`);
+  const bodies = idxs.map(block).join('');
+  return `<div class="xcard ${p.group}" id="xcard">
+    <div class="xhead"><div><div class="xbig">${esc(sizeTxt(p,r0))}</div><div class="xname">${esc(p.name)}<span>${esc(p.hi)}</span></div></div>
+      <div class="xchips">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div>
+    ${bodies}
+    <div class="xfoot">${[...notes].map(n=>`<div>${esc(n)}</div>`).join('')}<div>All sizes in mm · Tolerance ±5% · Material: ${esc(p.material)}</div><div class="xsrc">devshashi.com/lug-dimensions</div></div>
+  </div>`;
+};
 
 // ---------- ZOOM ----------
 const $z=document.getElementById('zoom'),$zs=document.getElementById('zoomSc'),$zt=document.getElementById('zoomToggle');
