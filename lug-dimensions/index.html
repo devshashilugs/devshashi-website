@@ -13,10 +13,10 @@
   --bg:#f3f1ec;--card:#fff;--ink:#14171c;--muted:#5d6470;--line:#dcd8cf;
   --al:#3d6f9e;--al-bg:#e6eef6;--cu:#b4572a;--cu-bg:#f8e9e0;
   --ok:#1a7a46;--warn-bg:#fff4d6;--warn:#8a5a00;--gold:#c9972a;--gold-ink:#111;
-  --pic:#e9e7e2;--stripe:#f8f7f4;--hover:#fff3d6;--on-color:#fff;--bar:#1f2937;--bar-ink:#fff;--key-bg:#fffaf0;
+  --pic:#e9e7e2;--stripe:#f8f7f4;--hover:#fff3d6;--on-color:#fff;--bar:#1f2937;--bar-ink:#fff;--key-bg:#fffaf0;--dim:#c2185b;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;color-scheme:dark}
 html{-webkit-text-size-adjust:100%}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.4;min-height:100vh}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
@@ -34,7 +34,8 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .tile{background:var(--card);border-radius:18px;overflow:hidden;text-align:left;border:3px solid transparent;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;flex-direction:column;transition:transform .1s}
 .tile:active{transform:scale(.98)}
 .tile.al{border-color:var(--al-bg)} .tile.cu{border-color:var(--cu-bg)}
-.tile .pic{height:150px;background:var(--pic) center/contain no-repeat}
+.tile .pic{height:180px;padding:8px;background:var(--card);border-bottom:1px solid var(--line)}
+.tile .pic .dwg{height:100%;width:100%}
 .tile .txt{padding:12px 14px 14px}
 .tile .nm{font-weight:800;font-size:18px;line-height:1.25}
 .tile .hi{color:var(--muted);font-size:16px;margin-top:2px}
@@ -49,7 +50,8 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .res button.al{border-left-color:var(--al)} .res button.cu{border-left-color:var(--cu)}
 .res b{font-size:18px}
 .prodhead{display:grid;grid-template-columns:1fr;gap:12px;background:var(--card);border-radius:18px;padding:12px;margin-bottom:14px}
-.prodhead img{border-radius:12px;background:var(--pic);cursor:zoom-in;max-height:300px;margin:0 auto;object-fit:contain}
+.dwgbox{cursor:zoom-in;min-width:0}
+.prodhead .dwg{max-height:380px;margin:0 auto}
 .meta{font-size:14px;color:var(--muted)}
 .btnrow{display:flex;flex-wrap:wrap;gap:8px}
 .pill{background:var(--bar);color:var(--bar-ink);border-radius:12px;padding:10px 14px;font-weight:700;font-size:15px}
@@ -81,8 +83,26 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .dc.na .val{font-size:22px;color:var(--muted)}
 .sect{font-size:20px;font-weight:800;margin:18px 0 10px}
 .drawing{background:var(--card);border-radius:18px;padding:12px;margin-bottom:14px}
-.drawing img{cursor:zoom-in;border-radius:10px;margin:0 auto;max-height:420px;object-fit:contain}
+.drawing{cursor:zoom-in}
+.drawing .dwg{margin:0 auto;max-height:78vh}
+.dwg{width:100%;height:auto;display:block}
+.al{--fill:var(--al-bg)} .cu{--fill:var(--cu-bg)}
+.dwg .body{fill:var(--fill,var(--pic));stroke:var(--ink);stroke-width:2.2;stroke-linejoin:round}
+.dwg .thin{stroke:var(--ink);stroke-width:1.2}
+.dwg .hid{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-dasharray:7 5}
+.dwg .ctr{fill:none;stroke:var(--muted);stroke-width:1;stroke-dasharray:14 4 3 4}
+.dwg .hole{fill:var(--card);stroke:var(--ink);stroke-width:2}
+.dwg .dm{stroke:var(--dim);stroke-width:1.5}
+.dwg .ex{stroke:var(--muted);stroke-width:1}
+.dwg .arw{fill:var(--dim)}
+.dwg .t{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:21px;font-weight:700;paint-order:stroke;stroke:var(--card);stroke-width:5px;stroke-linejoin:round}
+.dwg .dv{fill:var(--dim);font-weight:800}
+.dwg .dl{fill:var(--ink)}
+.dwg .vw{fill:var(--muted);font-size:13px;letter-spacing:.08em}
 .drawing p{font-size:14px;color:var(--muted);margin-top:8px;text-align:center}
+.zoom .sc .zsvg{background:var(--card);width:100%;min-height:100%;padding:8px}
+.zoom .sc.big .zsvg{width:250%}
+.zoom .sc .zsvg[hidden],.zoom .sc img[hidden]{display:none}
 .foot{font-size:14px;color:var(--muted);background:var(--card);border-radius:14px;padding:12px 14px}
 .navrow{display:flex;gap:10px;margin:14px 0}
 .navrow button{flex:1;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:14px;font-weight:800;font-size:17px}
@@ -112,9 +132,10 @@ td.k{font-weight:800}
 <main id="app"></main>
 <div class="zoom" id="zoom">
   <div class="bar"><span id="zoomTitle"></span><span style="display:flex;gap:8px"><button id="zoomToggle">Zoom +</button><button id="zoomClose">Close ✕</button></span></div>
-  <div class="sc" id="zoomSc"><img id="zoomImg" alt=""></div>
+  <div class="sc" id="zoomSc"><img id="zoomImg" alt=""><div class="zsvg" id="zoomSvg" hidden></div></div>
 </div>
 <script src="data.js"></script>
+<script src="drawings.js"></script>
 <script>
 (function(){
 const DATA = window.LUG_DATA;
@@ -137,7 +158,9 @@ const F = {
   H:   ['Hole Centre → Neck','छेद के सेंटर से गर्दन तक','H'],
   GH:  ['Palm Length (G+H)','पाम की लंबाई','G+H'],
   J:   ['Total Length','कुल लंबाई','J'],
-  pkg: ['Std. Packing (pcs)','स्टैंडर्ड पैकिंग (पीस)','']
+  pkg: ['Std. Packing (pcs)','स्टैंडर्ड पैकिंग (पीस)',''],
+  WT:  ['Approx. Weight (1 piece)','एक पीस का अनुमानित वज़न',''],
+  PPK: ['Approx. Pieces in 1 kg','1 किलो में लगभग पीस','']
 };
 // Per-kind overrides and display order
 const K = {
@@ -162,7 +185,21 @@ const K = {
                       L1p:['Pre-Insulated: Total Length','प्री-इंसुलेटेड: कुल लंबाई','L-1'],psd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
 };
 K.ringbig = {order:K.ring.order, key:K.ring.key, over:K.ring.over};
-const NOUNIT = new Set(['bolt','type','pkg','cpi','cpd','rsi','psd']);
+const NOUNIT = new Set(['bolt','type','pkg','cpi','cpd','rsi','psd','WT','PPK']);
+// ---- Weight estimate (aluminium items). Density of aluminium = 2.70 g/cm3 = 0.0027 g/mm3.
+const AL_DENSITY = 0.0027;
+function hasWeight(p){ return ['al-std','al-long','al-inline'].includes(p.id); }
+function holeDia(b){ const m=/M\s*([\d.]+)/i.exec(b||''); if(!m) return 0; const d=parseFloat(m[1]); return d + (d>=12?1:0.5); }
+function weightG(p,r){
+  if(!hasWeight(p)) return null;
+  const f=k=>parseFloat(r[k]); const ring=Math.PI/4*(f('C')**2 - f('A')**2);
+  if(p.id==='al-inline') return ring*f('J')*AL_DENSITY;
+  const D=f('D'), h=holeDia(r.bolt);
+  const palm=(D*f('GH') - (1-Math.PI/4)*D*D/2 - Math.PI/4*h*h) * f('F');   // flat palm, rounded end, minus bolt hole
+  const tube=ring*(f('B')+f('K'));                                              // barrel + neck
+  return (palm+tube)*AL_DENSITY;
+}
+function fmtG(g){ return g>=100? String(Math.round(g)) : g>=10? g.toFixed(1) : g.toFixed(2); }
 
 function lab(kind,k,extra){
   const d = K[kind]; const o = (extra? d.overExtra : d.over)||{};
@@ -171,7 +208,7 @@ function lab(kind,k,extra){
 function wall(r){ if(r.A==null||r.C==null) return null; return Math.round((parseFloat(r.C)-parseFloat(r.A))/2*100)/100; }
 function fmtWall(w){ return (w==null)?null:(Number.isInteger(w)?w.toFixed(1):String(w)); }
 function hasWall(p){ return ['lug','solder','inline','reducer','pin'].includes(p.kind); }
-function val(p,r,k){ if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
+function val(p,r,k){ if(k==='WT'){const g=weightG(p,r); return g==null?undefined:fmtG(g)+' g';} if(k==='PPK'){const g=weightG(p,r); return g==null?undefined:String(Math.round(1000/g));} if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
 function sizeTxt(p,r){ return r.size + ' ' + p.unit; }
 
 function setTop(back,title,sub){
@@ -184,7 +221,7 @@ function setTop(back,title,sub){
 function home(q){
   setTop(false,'Lug Dimensions / लग के नाप','Choose the item you are making · जो आइटम बना रहे हैं उसे चुनें');
   const tile = p => `<button class="tile ${p.group}" onclick="location.hash='#${p.id}'">
-      <div class="pic" style="background-image:url('${p.img}')"></div>
+      <div class="pic">${drawProduct(p)}</div>
       <div class="txt"><div class="nm">${esc(p.name)}</div><div class="hi">${esc(p.hi)}</div>
       <span class="cnt">${p.rows.length} sizes</span></div></button>`;
   $app.innerHTML = `
@@ -221,7 +258,7 @@ function product(p, showTable){
   const groups=[]; p.rows.forEach((r,i)=>{ let g=groups.find(g=>g.size===r.size); if(!g){g={size:r.size,items:[]};groups.push(g);} g.items.push({r,i}); });
   const btn = ({r,i}) => `<button class="sz" onclick="location.hash='#${p.id}-s${i}'">${r.bolt?esc(r.bolt):esc(r.size)}<small>${r.bolt?esc(r.size)+' '+esc(p.unit)+' · ':''}Cat ${esc(r.cat)}${r.type?' · Type '+esc(r.type):''}</small></button>`;
   $app.innerHTML = `<div class="${p.group}">
-    <div class="prodhead"><img src="${esc(p.img)}" alt="${esc(p.name)} drawing" onclick="zoom('${p.img}','Drawing')">
+    <div class="prodhead"><div class="dwgbox" onclick="zoomDwg('${p.id}',-1)">${drawProduct(p)}</div>
       <div><div class="meta">Material: <b>${esc(p.material)}</b></div>
       ${p.note?`<div class="meta" style="margin-top:4px">${esc(p.note)}</div>`:''}
       <div class="meta" style="margin-top:4px">All sizes in mm · Tolerance ±5%</div>
@@ -234,9 +271,9 @@ function product(p, showTable){
   </div>`;
 }
 function table(p){
-  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):p.rows.some(r=>r[k]!=null));
+  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):p.rows.some(r=>r[k]!=null)); if(hasWeight(p)) cols.push('WT');
   const ex=(d.extra||[]).filter(k=>p.rows.some(r=>r[k]!=null));
-  const head = [['size',p.unit],...cols.map(k=>[k,lab(p.kind,k)[2]||lab(p.kind,k)[0]]),['cat','Cat No.'],...ex.map(k=>[k,lab(p.kind,k,true)[0]])];
+  const head = [['size',p.unit],...cols.map(k=>[k,k==='WT'?'Weight ≈':(lab(p.kind,k)[2]||lab(p.kind,k)[0])]),['cat','Cat No.'],...ex.map(k=>[k,lab(p.kind,k,true)[0]])];
   return `<div class="hint" style="margin-bottom:8px">Tap any row to open it big · बड़ा देखने के लिए लाइन दबाएँ</div><div class="tblwrap"><table><thead><tr>${head.map(h=>`<th>${esc(h[1])}</th>`).join('')}</tr></thead><tbody>${
     p.rows.map((r,i)=>`<tr onclick="location.hash='#${p.id}-s${i}'">${head.map(([k])=>{const v=k==='size'?r.size:val(p,r,k);return `<td class="${k==='size'||k==='cat'?'k':''}">${v==null?'–':esc(v)}</td>`}).join('')}</tr>`).join('')
   }</tbody></table></div>`;
@@ -249,24 +286,24 @@ function card(p,r,k,isKey,extra){
   const na = v==null;
   const unit = NOUNIT.has(k)?'':'<span class="u">mm</span>';
   return `<div class="dc ${isKey?'key':''} ${na?'na':''}"><div class="lbl">${esc(en)}${sym?`<span class="sym">${esc(sym)}</span>`:''}</div><div class="hi">${esc(hi)}</div>
-    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}</div>`;
+    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
 }
 function detail(p,i){
   const r=p.rows[i]; if(!r){location.hash='#'+p.id;return;}
   const d=K[p.kind];
   setTop(true, sizeTxt(p,r)+(r.bolt?' · '+r.bolt:''), p.name);
-  const keys=d.key.filter(k=>k!=='WALL'||hasWall(p));
-  const rest=d.order.filter(k=>!keys.includes(k) && (k==='WALL'?hasWall(p):(r[k]!=null || p.rows.some(x=>x[k]!=null))));
+  const keys=d.key.filter(k=>k!=='WALL'||hasWall(p)); if(hasWeight(p)) keys.push('WT');
+  const rest=d.order.filter(k=>!keys.includes(k) && (k==='WALL'?hasWall(p):(r[k]!=null || p.rows.some(x=>x[k]!=null)))); if(hasWeight(p)) rest.push('PPK');
   const ex=(d.extra||[]).filter(k=>r[k]!=null);
   $app.innerHTML = `<div class="${p.group}">
     <div class="dhead"><div class="big">${esc(sizeTxt(p,r))}</div><div class="sub">${esc(p.name)}<br>${esc(p.hi)}</div>
       <div class="chips"><span class="chip">Cat No. ${esc(r.cat)}</span>${r.bolt?`<span class="chip">Bolt ${esc(r.bolt)}</span>`:''}${r.type?`<span class="chip">Type ${esc(r.type)}</span>`:''}</div></div>
+    <div class="drawing" onclick="zoomDwg('${p.id}',${i})">${drawProduct(p,r,true)}<p>All sizes in mm · Tap the drawing to zoom · ज़ूम करने के लिए ड्रॉइंग दबाएँ</p></div>
     <div class="sect">Main sizes · मुख्य नाप</div>
     <div class="cards">${keys.map(k=>card(p,r,k,true)).join('')}</div>
     <div class="sect">Other sizes · बाकी नाप</div>
     <div class="cards">${rest.map(k=>card(p,r,k,false)).join('')}</div>
     ${ex.length?`<div class="sect">${esc(d.extraTitle)}</div><div class="cards">${ex.map(k=>card(p,r,k,false,true)).join('')}</div>`:''}
-    <div class="drawing"><img src="${esc(p.img)}" alt="Drawing with letters" onclick="zoom('${p.img}','Drawing')"><p>Letters on the drawing (A, C, D, F, J…) match the boxes above. Tap to zoom.</p></div>
     <div class="navrow"><button ${i>0?'':'disabled'} onclick="location.hash='#${p.id}-s${i-1}'">◀ Smaller</button><button ${i<p.rows.length-1?'':'disabled'} onclick="location.hash='#${p.id}-s${i+1}'">Bigger ▶</button></div>
     <div class="btnrow" style="margin-bottom:14px"><button class="pill" onclick="zoom('${p.page}','Catalogue Page')">📄 See Original Catalogue Page</button></div>
     <div class="foot">Material: ${esc(p.material)} · All sizes in mm · Tolerance ±5%${p.note?' · '+esc(p.note):''}</div>
@@ -275,7 +312,10 @@ function detail(p,i){
 
 // ---------- ZOOM ----------
 const $z=document.getElementById('zoom'),$zs=document.getElementById('zoomSc'),$zt=document.getElementById('zoomToggle');
-window.zoom=function(src,t){ document.getElementById('zoomImg').src=src; document.getElementById('zoomTitle').textContent=t; $zs.classList.remove('big'); $zt.textContent='Zoom +'; $z.classList.add('on'); };
+const $zi=document.getElementById('zoomImg'), $zv=document.getElementById('zoomSvg');
+function openZoom(t){ document.getElementById('zoomTitle').textContent=t; $zs.classList.remove('big'); $zt.textContent='Zoom +'; $z.classList.add('on'); $zs.scrollTo(0,0); }
+window.zoom=function(src,t){ $zv.hidden=true; $zi.hidden=false; $zi.src=src; openZoom(t); };
+window.zoomDwg=function(id,i){ const p=byId[id], r=i>=0?p.rows[i]:null; $zi.hidden=true; $zv.hidden=false; $zv.className='zsvg '+p.group; $zv.innerHTML=drawProduct(p,r,!!r); openZoom(r? sizeTxt(p,r)+(r.bolt?' · '+r.bolt:'') : 'Drawing'); };
 $zt.onclick=()=>{ const b=$zs.classList.toggle('big'); $zt.textContent=b?'Zoom −':'Zoom +'; };
 document.getElementById('zoomClose').onclick=()=>$z.classList.remove('on');
 
