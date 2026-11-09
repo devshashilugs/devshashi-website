@@ -193,19 +193,44 @@ const K = {
 };
 K.ringbig = {order:K.ring.order, key:K.ring.key, over:K.ring.over};
 const NOUNIT = new Set(['bolt','type','pkg','cpi','cpd','rsi','psd','WT','PPK']);
-// ---- Weight estimate (aluminium items). Density of aluminium = 2.70 g/cm3 = 0.0027 g/mm3.
-const AL_DENSITY = 0.0027;
-function hasWeight(p){ return ['al-std','al-long','al-inline'].includes(p.id); }
+// ---- Weight estimate from the dimensions (all items).
+// Density: aluminium 2.70 g/cm3, EC copper 8.89 g/cm3 (g/cm3 x 0.001 = g/mm3).
+const DENSITY = {al:0.00270, cu:0.00889};
+function hasWeight(p){ return true; }
 function holeDia(b){ const m=/M\s*([\d.]+)/i.exec(b||''); if(!m) return 0; const d=parseFloat(m[1]); return d + (d>=12?1:0.5); }
-function weightG(p,r){
-  if(!hasWeight(p)) return null;
-  const f=k=>parseFloat(r[k]); const ring=Math.PI/4*(f('C')**2 - f('A')**2);
-  if(p.id==='al-inline') return ring*f('J')*AL_DENSITY;
-  const D=f('D'), h=holeDia(r.bolt);
-  const palm=(D*f('GH') - (1-Math.PI/4)*D*D/2 - Math.PI/4*h*h) * f('F');   // flat palm, rounded end, minus bolt hole
-  const tube=ring*(f('B')+f('K'));                                              // barrel + neck
-  return (palm+tube)*AL_DENSITY;
+function circSeg(rad, h){ if(h<=0) return 0; const x=rad-h; return rad*rad*Math.acos(x/rad) - x*Math.sqrt(Math.max(rad*rad-x*x,0)); }
+// volume in mm3
+function volume(p,r){
+  const f=k=>parseFloat(r[k]), ann=(o,i)=>Math.PI/4*(o*o-i*i);
+  switch(p.kind){
+    case 'inline': return ann(f('C'),f('A'))*f('J');
+    case 'lug': case 'solder': {
+      const D=f('D'), gh = r.GH!=null ? f('GH') : f('G')+f('H');
+      const h = p.kind==='solder' ? f('E') : holeDia(r.bolt);
+      const palm=(D*gh - (1-Math.PI/4)*D*D/2 - Math.PI/4*h*h) * f('F');   // flat palm, rounded end, minus hole
+      return palm + ann(f('C'),f('A'))*(f('B')+f('K'));                     // + barrel and neck (tube)
+    }
+    case 'reducer': {
+      const rad=f('D')/2, pinA=Math.PI*rad*rad - circSeg(rad, f('D')-f('D1'));   // round pin with one flat
+      const barA=ann(f('C'),f('A'));
+      return barA*f('B') + (barA+pinA)/2*f('K') + pinA*f('GH');
+    }
+    case 'pin': return ann(f('C'),f('A'))*f('B') + Math.PI/4*f('D')**2*(f('J')-f('B'));
+    case 'ring': {
+      const th=ringThick(r); if(!th || r.D==null) return null;
+      const T=th.t, D=f('D'), A=f('A'), OD=A+2*T, h=holeDia(r.bolt), neck=f('L1')-f('B');
+      const head = p.id==='cu-fork'
+        ? D*f('G') - h*f('G') - Math.PI/8*h*h            // two prongs above the hole centre
+        : Math.PI*D*D/8 - Math.PI/4*h*h;                 // half ring above the hole centre, minus hole
+      const plate=(head + (D+OD)/2*neck) * T;            // + tapered part down to the barrel
+      return plate + ann(OD,A)*f('B');
+    }
+  }
+  return null;
 }
+function weightG(p,r){ const v=volume(p,r); return (v==null||!isFinite(v)||v<=0)? null : v*DENSITY[p.group]; }
+window.weightG = weightG;
+function approxT(p,r){ return p.kind==='pin' || (p.kind==='ring' && ringThick(r) && ringThick(r).src!=='cat'); }
 function fmtG(g){ return g>=100? String(Math.round(g)) : g>=10? g.toFixed(1) : g.toFixed(2); }
 
 function lab(kind,k,extra){
@@ -293,7 +318,7 @@ function card(p,r,k,isKey,extra){
   const na = v==null;
   const unit = NOUNIT.has(k)?'':'<span class="u">mm</span>';
   return `<div class="dc ${isKey?'key':''} ${na?'na':''}"><div class="lbl">${esc(en)}${sym?`<span class="sym">${esc(sym)}</span>`:''}</div><div class="hi">${esc(hi)}</div>
-    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${(k==='RT'||k==='ROD')?(ringThick(r)&&ringThick(r).src==='cat'?'<div class="calc">✓ Calculated from catalogue: (øC of insulated version − øA) ÷ 2</div>':'<div class="calc warnc">≈ Approximate standard value (not printed in catalogue). Check before production.</div>'):''}${k==='TOT'?'<div class="calc">✓ Calculated: G + L-1</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
+    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${(k==='RT'||k==='ROD')?(ringThick(r)&&ringThick(r).src==='cat'?'<div class="calc">✓ Calculated from catalogue: (øC of insulated version − øA) ÷ 2</div>':'<div class="calc warnc">≈ Approximate standard value (not printed in catalogue). Check before production.</div>'):''}${k==='TOT'?'<div class="calc">✓ Calculated: G + L-1</div>':''}${k==='WT'?`<div class="calc ${approxT(p,r)?'warnc':''}">Estimated from the dimensions (${p.group==='al'?'aluminium 2.70':'copper 8.89'} g/cm³)${approxT(p,r)?(p.kind==='pin'?', assuming a round pin of dia D (rough)':', using the approximate sheet thickness'):''}. Check by weighing a few pieces.</div>`:''}</div>`;
 }
 function detail(p,i){
   const r=p.rows[i]; if(!r){location.hash='#'+p.id;return;}
