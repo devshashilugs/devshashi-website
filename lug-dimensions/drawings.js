@@ -2,7 +2,7 @@
 // drawProduct(p, row, showValues) returns an <svg> string. Shapes are drawn
 // roughly to scale from the row's own numbers; labels carry the exact values.
 (function(){
-let UID = 0;
+let UID = 0, HIDE_BOLT = false;
 const num = v => (v==null || v==='') ? null : parseFloat(v);
 const boltDia = b => { const m = /M\s*([\d.]+)/i.exec(b||''); return m ? parseFloat(m[1]) : null; };
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
@@ -78,7 +78,7 @@ function lug(p, r, show){
   c.add(`<circle class="hole" cx="${r1(cx)}" cy="${r1(yHole)}" r="${r1(hr)}"/>`);
   c.add(`<path class="ctr" d="M${r1(cx-Dw/2-10)},${r1(yHole)} L${r1(cx+Dw/2+10)},${r1(yHole)} M${r1(cx)},${r1(y0-10)} L${r1(cx)},${r1(y3+10)}"/>`);
   const holeTxt = isSolder ? c.lbl('øE', r.E) : c.lbl('E', r.bolt || (show ? '—' : null));
-  c.text(cx, Math.min(yHole + hr + 18, y1 - 10), holeTxt);
+  if (!HIDE_BOLT) c.text(cx, Math.min(yHole + hr + 18, y1 - 10), holeTxt);
   // dims: D on top
   c.hdim(cx-Dw/2, cx+Dw/2, 30, c.lbl('D', r.D), y0+ry, y0+ry);
   // chain on the left
@@ -240,8 +240,10 @@ function ring(p, r, show){
 
 const KIND = {lug, solder: lug, inline, reducer, pin, ring, ringbig: ring};
 // Pick a mid-range row for the generic (letters-only) drawing.
-window.drawProduct = function(p, row, show){
+// opts.hideBolt: leave out the bolt-size label on tube lugs (used for the ITEM MASTER images).
+window.drawProduct = function(p, row, show, opts){
   const r = row || p.rows[Math.floor(p.rows.length * 0.45)];
-  return KIND[p.kind](p, r, !!(show && row));
+  HIDE_BOLT = !!(opts && opts.hideBolt);
+  try { return KIND[p.kind](p, r, !!(show && row)); } finally { HIDE_BOLT = false; }
 };
 })();
