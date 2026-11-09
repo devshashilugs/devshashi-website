@@ -107,10 +107,14 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .navrow{display:flex;gap:10px;margin:14px 0}
 .navrow button{flex:1;background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:14px;font-weight:800;font-size:17px}
 .navrow button:disabled{opacity:.3}
-.tblwrap{overflow-x:auto;background:var(--card);border-radius:16px;margin-bottom:14px;-webkit-overflow-scrolling:touch}
+.tblwrap{overflow:auto;max-height:calc(100vh - var(--barh,90px) - 20px);max-height:calc(100dvh - var(--barh,90px) - 20px);background:var(--card);border-radius:16px;margin-bottom:14px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;border:1px solid var(--line)}
 table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
 th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
-th{background:var(--bar);color:var(--bar-ink);position:sticky;top:0;font-size:13px}
+th{background:var(--bar);color:var(--bar-ink);position:sticky;top:0;z-index:2;font-size:13px}
+th:first-child{left:0;z-index:3}
+td:first-child{position:sticky;left:0;z-index:1;background:var(--card);box-shadow:1px 0 0 var(--line)}
+tbody tr:nth-child(even) td:first-child{background:var(--stripe)}
+tbody tr:hover td:first-child{background:var(--hover)}
 tbody tr{cursor:pointer} tbody tr:nth-child(even){background:var(--stripe)}
 tbody tr:hover{background:var(--hover)}
 td.k{font-weight:800}
@@ -329,6 +333,8 @@ function route(){
   else if((m=h.match(/^(.+)-s(\d+)$/)) && byId[m[1]]) detail(byId[m[1]],parseInt(m[2],10));
   else home('');
   window.scrollTo(0,0);
+  const bh=$top.offsetHeight; document.documentElement.style.setProperty('--barh', bh+'px');
+  const tw=document.querySelector('.tblwrap'); if(tw) window.scrollTo(0, tw.getBoundingClientRect().top + window.scrollY - bh - 10);
 }
 window.addEventListener('hashchange',route); route();
 })();
