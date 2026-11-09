@@ -168,7 +168,6 @@ function fmtWall(w){ return (w==null)?null:(Number.isInteger(w)?w.toFixed(1):Str
 function hasWall(p){ return ['lug','solder','inline','reducer','pin'].includes(p.kind); }
 function val(p,r,k){ if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
 function sizeTxt(p,r){ return r.size + ' ' + p.unit; }
-function incomplete(p,r){ return (p.kind==='ring') && r.D==null; }
 
 function setTop(back,title,sub){
   $top.innerHTML = (back?`<button class="back" onclick="history.back()">← Back</button>`:'') +
@@ -257,7 +256,6 @@ function detail(p,i){
   $app.innerHTML = `<div class="${p.group}">
     <div class="dhead"><div class="big">${esc(sizeTxt(p,r))}</div><div class="sub">${esc(p.name)}<br>${esc(p.hi)}</div>
       <div class="chips"><span class="chip">Cat No. ${esc(r.cat)}</span>${r.bolt?`<span class="chip">Bolt ${esc(r.bolt)}</span>`:''}${r.type?`<span class="chip">Type ${esc(r.type)}</span>`:''}</div></div>
-    ${incomplete(p,r)?`<div class="warn">⚠ The catalogue does not print the dimensions for this hole size (only the Cat No.). Ask the supervisor before making it. · इस साइज़ के नाप कैटलॉग में नहीं हैं, सुपरवाइज़र से पूछें।</div>`:''}
     <div class="sect">Main sizes · मुख्य नाप</div>
     <div class="cards">${keys.map(k=>card(p,r,k,true)).join('')}</div>
     <div class="sect">Other sizes · बाकी नाप</div>
