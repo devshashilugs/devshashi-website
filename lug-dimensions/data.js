@@ -5,7 +5,6 @@ window.LUG_DATA = [
 "group": "al",
 "name": "Aluminium Tube Terminal (Lug)",
 "hi": "एल्युमिनियम लग – स्टैंडर्ड",
-
 "page": "img/page-p4.jpg",
 "material": "Electrolytic Aluminium (IS 5082 / IS 8309)",
 "kind": "lug",
@@ -591,7 +590,6 @@ window.LUG_DATA = [
 "group": "al",
 "name": "Aluminium Tube Terminal – Long Barrel",
 "hi": "एल्युमिनियम लग – लंबा बैरल",
-
 "page": "img/page-p4.jpg",
 "material": "Electrolytic Aluminium (IS 5082 / IS 8309)",
 "kind": "lug",
@@ -1177,7 +1175,6 @@ window.LUG_DATA = [
 "group": "al",
 "name": "Aluminium In-Line Connector (Pipe)",
 "hi": "एल्युमिनियम इन-लाइन कनेक्टर (पाइप)",
-
 "page": "img/page-p1.jpg",
 "material": "Electrolytic Aluminium (IS 5082)",
 "kind": "inline",
@@ -1338,7 +1335,6 @@ window.LUG_DATA = [
 "group": "al",
 "name": "Aluminium Reducer (Pin) Terminal",
 "hi": "एल्युमिनियम रिड्यूसर / पिन लग",
-
 "page": "img/page-p2.jpg",
 "material": "Electrolytic Aluminium (IS 5082)",
 "kind": "reducer",
@@ -1832,7 +1828,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Tube Terminal – Medium Duty",
 "hi": "कॉपर लग – मीडियम ड्यूटी",
-
 "page": "img/page-p3.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "lug",
@@ -2356,7 +2351,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Tube Terminal – Heavy Duty Long Barrel",
 "hi": "कॉपर लग – हैवी ड्यूटी लंबा बैरल",
-
 "page": "img/page-p2.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "lug",
@@ -2552,7 +2546,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Tube Terminal – Heavy Duty (Open at K)",
 "hi": "कॉपर लग – हैवी ड्यूटी (ओपन एट K)",
-
 "page": "img/page-p2.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "lug",
@@ -2818,7 +2811,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Soldering Type Tube Terminal",
 "hi": "कॉपर सोल्डरिंग लग",
-
 "page": "img/page-p1.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "solder",
@@ -2952,7 +2944,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Tube In-Line Connector (Pipe)",
 "hi": "कॉपर इन-लाइन कनेक्टर (पाइप)",
-
 "page": "img/page-p1.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "inline",
@@ -3106,7 +3097,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Reducer (Pin) Terminal",
 "hi": "कॉपर रिड्यूसर / पिन लग",
-
 "page": "img/page-p1.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "reducer",
@@ -3336,7 +3326,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Pin Terminal",
 "hi": "कॉपर पिन टर्मिनल",
-
 "page": "img/page-p5.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "pin",
@@ -3556,15 +3545,14 @@ window.LUG_DATA = [
 ]
 },
 {
-"id": "cu-ring-small",
+"id": "cu-ring",
 "group": "cu",
-"name": "Copper Ring Terminal (1 – 4.6 mm²)",
-"hi": "कॉपर रिंग टर्मिनल (छोटे)",
-
+"name": "Copper Ring Terminal",
+"hi": "कॉपर रिंग टर्मिनल",
 "page": "img/page-p6.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "ring",
-"note": "Non-insulated / Insulated / Pre-insulated. Finish: Electro tinned",
+"note": "1 – 150 mm². Sizes up to 4.6 mm² also come Insulated / Pre-insulated. Finish: Electro tinned",
 "unit": "mm²",
 "rows": [
 {
@@ -3886,21 +3874,7 @@ window.LUG_DATA = [
 "psd": "7482",
 "size": "4.6",
 "cat": "7023"
-}
-]
 },
-{
-"id": "cu-ring-big",
-"group": "cu",
-"name": "Copper Ring Terminal (10 – 150 mm²)",
-"hi": "कॉपर रिंग टर्मिनल (बड़े)",
-
-"page": "img/page-p6.jpg",
-"material": "EC Grade Copper (IS 191)",
-"kind": "ringbig",
-"note": "",
-"unit": "mm²",
-"rows": [
 {
 "bolt": "M5",
 "A": "4.3",
@@ -4258,7 +4232,6 @@ window.LUG_DATA = [
 "group": "cu",
 "name": "Copper Fork (U) Terminal",
 "hi": "कॉपर फोर्क (U) टर्मिनल",
-
 "page": "img/page-p6.jpg",
 "material": "EC Grade Copper (IS 191)",
 "kind": "ring",

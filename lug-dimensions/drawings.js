@@ -32,6 +32,19 @@ Ctx.prototype.vdim = function(x, y1, y2, html, side, x1obj, x2obj){
   const tx = side === 'right' ? x + 8 : x - 8;
   this.text(tx, (y1+y2)/2, html, side === 'right' ? 'start' : 'end');
 };
+// wall-thickness dimension: arrows point inward from outside at a and b (small gap between them)
+Ctx.prototype.tdim = function(vertical, at, a, b, html, textX, textY, anchor){
+  const L = 24, ar = `marker-end="url(#ar${this.id})"`;
+  if (vertical){
+    this.add(`<line class="dm" x1="${r1(at)}" y1="${r1(a-L)}" x2="${r1(at)}" y2="${r1(a)}" ${ar}/>`);
+    this.add(`<line class="dm" x1="${r1(at)}" y1="${r1(b+L)}" x2="${r1(at)}" y2="${r1(b)}" ${ar}/>`);
+  } else {
+    this.add(`<line class="dm" x1="${r1(a-L)}" y1="${r1(at)}" x2="${r1(a)}" y2="${r1(at)}" ${ar}/>`);
+    this.add(`<line class="dm" x1="${r1(b+L)}" y1="${r1(at)}" x2="${r1(b)}" y2="${r1(at)}" ${ar}/>`);
+  }
+  this.text(textX, textY, html, anchor||'start');
+};
+const wallTxt = r => { const w = (parseFloat(r.C) - parseFloat(r.A)) / 2; return isFinite(w) ? String(Math.round(w*100)/100) : null; };
 Ctx.prototype.svg = function(w, h, caption){
   const cap = caption ? `<text class="cap" x="${r1(w/2)}" y="${r1(h-12)}" text-anchor="middle">${caption}</text>` : '';
   return `<svg class="dwg" viewBox="0 0 ${Math.ceil(w)} ${Math.ceil(h)}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dimension drawing">`+
@@ -93,7 +106,10 @@ function lug(p, r, show){
   c.hdim(sx, sx+Fw, 30, c.lbl('F', r.F), y0+Fw/2, y0+Fw/2);
   c.text(cx, y3+112, '<tspan class="vw">FRONT VIEW</tspan>');
   c.text(sx+Cw/2, y3+112, '<tspan class="vw">SIDE VIEW</tspan>');
-  return c.svg(Math.max(sx + Cw + 70, sx + Fw/2 + 80), y3 + 134);
+  // wall thickness at barrel mouth (side view)
+  c.add(`<line class="ex" x1="${r1(sa+Aw)}" y1="${r1(y3)}" x2="${r1(sa+Aw)}" y2="${r1(y3+44)}"/><line class="ex" x1="${r1(sx+Cw)}" y1="${r1(y3)}" x2="${r1(sx+Cw)}" y2="${r1(y3+44)}"/>`);
+  c.tdim(false, y3+38, sa+Aw, sx+Cw, c.lbl('T', wallTxt(r)), sx+Cw+30, y3+38);
+  return c.svg(Math.max(sx + Cw + 140, sx + Fw/2 + 80), y3 + 134);
 }
 
 // ---------------- In-line connector (plain tube) ----------------
@@ -108,8 +124,10 @@ function inline(p, r, show){
   c.add(`<line class="ctr" x1="${x0-12}" y1="${r1(ym)}" x2="${r1(x0+L+12)}" y2="${r1(ym)}"/>`);
   c.vdim(x0 + L*0.22, ym-Aw/2, ym+Aw/2, c.lbl('øA', r.A), 'right');
   c.vdim(x0 + L + 26, ym-Cw/2, ym+Cw/2, c.lbl('øC', r.C), 'right', x0+L, x0+L);
-  c.hdim(x0, x0+L, ym + Cw/2 + 34, c.lbl('J', r.J), ym+Cw/2, ym+Cw/2, true);
-  return c.svg(x0 + L + 150, ym + Cw/2 + 80);
+  const xt = x0 + L*0.62;
+  c.tdim(true, xt, ym+Aw/2, ym+Cw/2, c.lbl('T', wallTxt(r)), xt + 10, ym + Cw/2 + 15);
+  c.hdim(x0, x0+L, ym + Cw/2 + 46, c.lbl('J', r.J), ym+Cw/2, ym+Cw/2, true);
+  return c.svg(x0 + L + 150, ym + Cw/2 + 92);
 }
 
 // ---------------- Reducer (barrel + pin) ----------------
