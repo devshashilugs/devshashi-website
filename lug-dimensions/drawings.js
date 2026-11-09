@@ -161,40 +161,37 @@ function pin(p, r, show){
 }
 
 // ---------------- Ring / fork terminal ----------------
+// Catalogue convention: G = ring top to hole centre, L-1 = hole centre to barrel end.
 function ring(p, r, show){
   const c = new Ctx(show);
   const fork = p.id === 'cu-fork';
   const A=num(r.A), D=num(r.D), B=num(r.B), G=num(r.G), L=num(r.L1);
-  const s = 400 / L;
-  const Dw = Math.max(D*s, 60), Aw = Math.max(A*s, 22), Bw = Aw + Math.max(Aw*0.35, 10);
-  const xv = 126, cx = xv + 40 + Dw/2, y0 = 64, yc = y0 + G*s, yEnd = y0 + L*s, yB = yEnd - B*s;
-  const R = Dw/2, bm = boltDia(r.bolt), hr = Math.min(bm ? (bm+0.3)*s/2 : R*0.5, R*0.62);
-  const yNeck = Math.max(yc + R*0.55, Math.min(yB - 6, yc + R));
+  const s = 420 / (G + L);
+  const Dw = Math.max(D*s, 60), R = Dw/2, Aw = Math.max(A*s, 20);
+  const Bw = Math.min(Math.max(Aw*1.35, Aw + 12), Dw*0.85);
+  const xv = 126, cx = xv + 44 + R, y0 = 70, yc = y0 + G*s, yEnd = yc + L*s, yB = yEnd - B*s;
+  const bm = boltDia(r.bolt), hr = Math.min(bm ? (bm+0.3)*s/2 : R*0.5, R*0.62);
+  const ry = Math.min(R, yc - y0);
   let body;
   if (fork) {
     const sw = hr;
-    body = `M${r1(cx-R)},${r1(y0)} L${r1(cx-sw)},${r1(y0)} L${r1(cx-sw)},${r1(yc)} A${r1(sw)},${r1(sw)} 0 0 0 ${r1(cx+sw)},${r1(yc)} L${r1(cx+sw)},${r1(y0)} L${r1(cx+R)},${r1(y0)} L${r1(cx+R)},${r1(yc)} Q${r1(cx+R)},${r1(yNeck)} ${r1(cx+Bw/2)},${r1(yB)} L${r1(cx+Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yB)} Q${r1(cx-R)},${r1(yNeck)} ${r1(cx-R)},${r1(yc)} Z`;
+    body = `M${r1(cx-Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yB)} L${r1(cx-R)},${r1(yc)} L${r1(cx-R)},${r1(y0)} L${r1(cx-sw)},${r1(y0)} L${r1(cx-sw)},${r1(yc)} A${r1(sw)},${r1(sw)} 0 0 0 ${r1(cx+sw)},${r1(yc)} L${r1(cx+sw)},${r1(y0)} L${r1(cx+R)},${r1(y0)} L${r1(cx+R)},${r1(yc)} L${r1(cx+Bw/2)},${r1(yB)} L${r1(cx+Bw/2)},${r1(yEnd)} Z`;
   } else {
-    const a = Math.asin(Math.min(Bw/2/R, 0.95)), ya = yc + R*Math.cos(a)*0.0;
-    body = `M${r1(cx-Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yB)} L${r1(cx-Bw/2)},${r1(yc+R*0.6)} A${r1(R)},${r1(R)} 0 1 1 ${r1(cx+Bw/2)},${r1(yc+R*0.6)} L${r1(cx+Bw/2)},${r1(yB)} L${r1(cx+Bw/2)},${r1(yEnd)} Z`;
-    // keep arc endpoints on the circle
-    const yy = yc + Math.sqrt(Math.max(R*R - (Bw/2)*(Bw/2), 0));
-    body = `M${r1(cx-Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yy)} A${r1(R)},${r1(R)} 0 1 1 ${r1(cx+Bw/2)},${r1(yy)} L${r1(cx+Bw/2)},${r1(yEnd)} Z`;
-    void a; void ya;
+    body = `M${r1(cx-Bw/2)},${r1(yEnd)} L${r1(cx-Bw/2)},${r1(yB)} L${r1(cx-R)},${r1(yc)} A${r1(R)},${r1(ry)} 0 0 1 ${r1(cx+R)},${r1(yc)} L${r1(cx+Bw/2)},${r1(yB)} L${r1(cx+Bw/2)},${r1(yEnd)} Z`;
   }
   c.add(`<path class="body" d="${body}"/>`);
   if (!fork) c.add(`<circle class="hole" cx="${r1(cx)}" cy="${r1(yc)}" r="${r1(hr)}"/>`);
-  if (yB > yc + R - 2) c.add(`<line class="thin" x1="${r1(cx-Bw/2)}" y1="${r1(yB)}" x2="${r1(cx+Bw/2)}" y2="${r1(yB)}"/>`);
+  c.add(`<line class="thin" x1="${r1(cx-Bw/2)}" y1="${r1(yB)}" x2="${r1(cx+Bw/2)}" y2="${r1(yB)}"/>`);
   c.add(`<path class="hid" d="M${r1(cx-Aw/2)},${r1(yEnd)} L${r1(cx-Aw/2)},${r1(yB)} M${r1(cx+Aw/2)},${r1(yEnd)} L${r1(cx+Aw/2)},${r1(yB)}"/>`);
-  c.add(`<path class="ctr" d="M${r1(cx-R-10)},${r1(yc)} L${r1(cx+R+10)},${r1(yc)} M${r1(cx)},${r1(y0-10)} L${r1(cx)},${r1(yEnd+10)}"/>`);
-  c.hdim(cx-R, cx+R, 30, c.lbl('D', r.D), fork ? y0 : yc, fork ? y0 : yc);
+  c.add(`<path class="ctr" d="M${r1(cx-R-12)},${r1(yc)} L${r1(cx+R+40)},${r1(yc)} M${r1(cx)},${r1(y0-10)} L${r1(cx)},${r1(yEnd+10)}"/>`);
+  c.hdim(cx-R, cx+R, 32, c.lbl('D', r.D), yc, yc);
   c.vdim(xv, y0, yc, c.lbl('G', r.G), 'left', cx, cx-R);
   c.vdim(xv, yB, yEnd, c.lbl('B', r.B), 'left', cx-Bw/2, cx-Bw/2);
-  const xl = cx + R + 26;
-  c.vdim(xl, y0, yEnd, c.lbl('L-1', r.L1), 'right', cx, cx+Bw/2);
-  c.hdim(cx-Aw/2, cx+Aw/2, yEnd + 34, c.lbl('øA', r.A), yEnd, yEnd, true);
+  const xl = cx + R + 30;
+  c.vdim(xl, yc, yEnd, c.lbl('L-1', r.L1), 'right', null, cx+Bw/2);
+  c.hdim(cx-Aw/2, cx+Aw/2, yEnd + 36, c.lbl('øA', r.A), yEnd, yEnd, true);
   c.text(cx, fork ? (y0 + yc)/2 : yc, c.lbl('E', r.bolt));
-  return c.svg(xl + 130, yEnd + 84);
+  return c.svg(xl + 140, yEnd + 88);
 }
 
 const KIND = {lug, solder: lug, inline, reducer, pin, ring, ringbig: ring};

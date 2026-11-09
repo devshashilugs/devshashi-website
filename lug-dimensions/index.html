@@ -176,13 +176,13 @@ const K = {
            extraTitle:'Insulated / Pre-Insulated versions', extra:['J1','cpi','A1','cpd'],
            overExtra:{J1:['Insulated: Insulation Length','इंसुलेटेड: इंसुलेशन लंबाई','J-1'],cpi:['Insulated Cat No.','इंसुलेटेड कैट नंबर',''],
                       A1:['Pre-Insulated: Sleeve ID','प्री-इंसुलेटेड: स्लीव ID','øA-1'],cpd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
-  ring:   {order:['A','D','bolt','B','G','L1'], key:['A','D','B','L1'],
+  ring:   {order:['A','D','bolt','B','G','L1','TOT'], key:['A','D','B','TOT'],
            over:{A:['Barrel Inner Dia (ID)','बैरल का अंदर का व्यास','øA'],D:['Ring / Fork Width','रिंग / फोर्क की चौड़ाई','D'],
-                 G:['Hole Centre → End','छेद के सेंटर से सिरे तक','G'],L1:['Total Length','कुल लंबाई','L-1']},
+                 G:['Hole Centre → End','छेद के सेंटर से सिरे तक','G'],L1:['Hole Centre → Barrel End','छेद के सेंटर से बैरल के सिरे तक','L-1'],TOT:['Total Length (G + L-1)','कुल लंबाई','G+L-1']},
            extraTitle:'Insulated / Pre-Insulated versions', extra:['C','L1i','rsi','A1','L1p','psd'],
-           overExtra:{C:['Insulated: Insulation OD','इंसुलेटेड: इंसुलेशन OD','øC'],L1i:['Insulated: Total Length','इंसुलेटेड: कुल लंबाई','L-1'],
+           overExtra:{C:['Insulated: Insulation OD','इंसुलेटेड: इंसुलेशन OD','øC'],L1i:['Insulated: Hole Centre → End','इंसुलेटेड: छेद के सेंटर से सिरे तक','L-1'],
                       rsi:['Insulated Cat No.','इंसुलेटेड कैट नंबर',''],A1:['Pre-Insulated: Sleeve Dia','प्री-इंसुलेटेड: स्लीव व्यास','øA-1'],
-                      L1p:['Pre-Insulated: Total Length','प्री-इंसुलेटेड: कुल लंबाई','L-1'],psd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
+                      L1p:['Pre-Insulated: Hole Centre → End','प्री-इंसुलेटेड: छेद के सेंटर से सिरे तक','L-1'],psd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
 };
 K.ringbig = {order:K.ring.order, key:K.ring.key, over:K.ring.over};
 const NOUNIT = new Set(['bolt','type','pkg','cpi','cpd','rsi','psd','WT','PPK']);
@@ -208,7 +208,7 @@ function lab(kind,k,extra){
 function wall(r){ if(r.A==null||r.C==null) return null; return Math.round((parseFloat(r.C)-parseFloat(r.A))/2*100)/100; }
 function fmtWall(w){ return (w==null)?null:(Number.isInteger(w)?w.toFixed(1):String(w)); }
 function hasWall(p){ return ['lug','solder','inline','reducer','pin'].includes(p.kind); }
-function val(p,r,k){ if(k==='WT'){const g=weightG(p,r); return g==null?undefined:fmtG(g)+' g';} if(k==='PPK'){const g=weightG(p,r); return g==null?undefined:String(Math.round(1000/g));} if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
+function val(p,r,k){ if(k==='TOT'){ if(r.G==null||r.L1==null) return undefined; const t=Math.round((parseFloat(r.G)+parseFloat(r.L1))*10)/10; return String(t); } if(k==='WT'){const g=weightG(p,r); return g==null?undefined:fmtG(g)+' g';} if(k==='PPK'){const g=weightG(p,r); return g==null?undefined:String(Math.round(1000/g));} if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
 function sizeTxt(p,r){ return r.size + ' ' + p.unit; }
 
 function setTop(back,title,sub){
@@ -271,7 +271,7 @@ function product(p, showTable){
   </div>`;
 }
 function table(p){
-  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):p.rows.some(r=>r[k]!=null)); if(hasWeight(p)) cols.push('WT');
+  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):k==='TOT'?true:p.rows.some(r=>r[k]!=null)); if(hasWeight(p)) cols.push('WT');
   const ex=(d.extra||[]).filter(k=>p.rows.some(r=>r[k]!=null));
   const head = [['size',p.unit],...cols.map(k=>[k,k==='WT'?'Weight ≈':(lab(p.kind,k)[2]||lab(p.kind,k)[0])]),['cat','Cat No.'],...ex.map(k=>[k,lab(p.kind,k,true)[0]])];
   return `<div class="hint" style="margin-bottom:8px">Tap any row to open it big · बड़ा देखने के लिए लाइन दबाएँ</div><div class="tblwrap"><table><thead><tr>${head.map(h=>`<th>${esc(h[1])}</th>`).join('')}</tr></thead><tbody>${
@@ -286,7 +286,7 @@ function card(p,r,k,isKey,extra){
   const na = v==null;
   const unit = NOUNIT.has(k)?'':'<span class="u">mm</span>';
   return `<div class="dc ${isKey?'key':''} ${na?'na':''}"><div class="lbl">${esc(en)}${sym?`<span class="sym">${esc(sym)}</span>`:''}</div><div class="hi">${esc(hi)}</div>
-    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
+    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${k==='TOT'?'<div class="calc">✓ Calculated: G + L-1</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
 }
 function detail(p,i){
   const r=p.rows[i]; if(!r){location.hash='#'+p.id;return;}
