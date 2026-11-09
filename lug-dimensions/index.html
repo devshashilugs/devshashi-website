@@ -15,8 +15,8 @@
   --ok:#1a7a46;--warn-bg:#fff4d6;--warn:#8a5a00;--gold:#c9972a;--gold-ink:#111;
   --pic:#e9e7e2;--stripe:#f8f7f4;--hover:#fff3d6;--on-color:#fff;--bar:#1f2937;--bar-ink:#fff;--key-bg:#fffaf0;--dim:#c2185b;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;--warn:#f0b54a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171c;--card:#1e232b;--ink:#eef0f3;--muted:#a3abb7;--line:#343b46;--pic:#d9d7d2;--stripe:#232932;--hover:#3a3220;--al:#4a82b8;--al-bg:#22344a;--cu:#c4683a;--cu-bg:#3d2a20;--bar:#0c0f13;--bar-ink:#fff;--key-bg:#2a2518;--ok:#4cc386;--dim:#ff7fab;--warn:#f0b54a;color-scheme:dark}
 html{-webkit-text-size-adjust:100%}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans","Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.4;min-height:100vh}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
@@ -79,6 +79,7 @@ h2.grp .dot{width:18px;height:18px;border-radius:50%}
 .dc .val{font-size:40px;font-weight:900;margin-top:4px;font-variant-numeric:tabular-nums;line-height:1.05}
 .dc .val .u{font-size:18px;font-weight:700;color:var(--muted);margin-left:4px}
 .dc .sym{display:inline-block;font-size:14px;font-weight:800;background:var(--ink);color:var(--bg);border-radius:8px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.dc .calc.warnc{color:var(--warn)}
 .dc .calc{font-size:12px;color:var(--ok);font-weight:700;margin-top:2px}
 .dc.na .val{font-size:22px;color:var(--muted)}
 .sect{font-size:20px;font-weight:800;margin:18px 0 10px}
@@ -163,6 +164,8 @@ const F = {
   GH:  ['Palm Length (G+H)','पाम की लंबाई','G+H'],
   J:   ['Total Length','कुल लंबाई','J'],
   pkg: ['Std. Packing (pcs)','स्टैंडर्ड पैकिंग (पीस)',''],
+  RT:  ['Sheet Thickness','शीट की मोटाई','T'],
+  ROD: ['Barrel Outer Dia (OD)','बैरल का बाहर का व्यास','øOD'],
   WT:  ['Approx. Weight (1 piece)','एक पीस का अनुमानित वज़न',''],
   PPK: ['Approx. Pieces in 1 kg','1 किलो में लगभग पीस','']
 };
@@ -180,11 +183,11 @@ const K = {
            extraTitle:'Insulated / Pre-Insulated versions', extra:['J1','cpi','A1','cpd'],
            overExtra:{J1:['Insulated: Insulation Length','इंसुलेटेड: इंसुलेशन लंबाई','J-1'],cpi:['Insulated Cat No.','इंसुलेटेड कैट नंबर',''],
                       A1:['Pre-Insulated: Sleeve ID','प्री-इंसुलेटेड: स्लीव ID','øA-1'],cpd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
-  ring:   {order:['A','D','bolt','B','G','L1','TOT'], key:['A','D','B','TOT'],
+  ring:   {order:['A','RT','ROD','D','bolt','B','G','L1','TOT'], key:['A','RT','D','TOT'],
            over:{A:['Barrel Inner Dia (ID)','बैरल का अंदर का व्यास','øA'],D:['Ring / Fork Width','रिंग / फोर्क की चौड़ाई','D'],
                  G:['Hole Centre → End','छेद के सेंटर से सिरे तक','G'],L1:['Hole Centre → Barrel End','छेद के सेंटर से बैरल के सिरे तक','L-1'],TOT:['Total Length (G + L-1)','कुल लंबाई','G+L-1']},
            extraTitle:'Insulated / Pre-Insulated versions', extra:['C','L1i','rsi','A1','L1p','psd'],
-           overExtra:{C:['Insulated: Insulation OD','इंसुलेटेड: इंसुलेशन OD','øC'],L1i:['Insulated: Hole Centre → End','इंसुलेटेड: छेद के सेंटर से सिरे तक','L-1'],
+           overExtra:{C:['Insulated version: øC','इंसुलेटेड: øC','øC'],L1i:['Insulated: Hole Centre → End','इंसुलेटेड: छेद के सेंटर से सिरे तक','L-1'],
                       rsi:['Insulated Cat No.','इंसुलेटेड कैट नंबर',''],A1:['Pre-Insulated: Sleeve Dia','प्री-इंसुलेटेड: स्लीव व्यास','øA-1'],
                       L1p:['Pre-Insulated: Hole Centre → End','प्री-इंसुलेटेड: छेद के सेंटर से सिरे तक','L-1'],psd:['Pre-Insulated Cat No.','प्री-इंसुलेटेड कैट नंबर','']}},
 };
@@ -212,7 +215,7 @@ function lab(kind,k,extra){
 function wall(r){ if(r.A==null||r.C==null) return null; return Math.round((parseFloat(r.C)-parseFloat(r.A))/2*100)/100; }
 function fmtWall(w){ return (w==null)?null:(Number.isInteger(w)?w.toFixed(1):String(w)); }
 function hasWall(p){ return ['lug','solder','inline','reducer','pin'].includes(p.kind); }
-function val(p,r,k){ if(k==='TOT'){ if(r.G==null||r.L1==null) return undefined; const t=Math.round((parseFloat(r.G)+parseFloat(r.L1))*10)/10; return String(t); } if(k==='WT'){const g=weightG(p,r); return g==null?undefined:fmtG(g)+' g';} if(k==='PPK'){const g=weightG(p,r); return g==null?undefined:String(Math.round(1000/g));} if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
+function val(p,r,k){ if(k==='RT'||k==='ROD'){ if(!['ring','ringbig'].includes(p.kind)) return undefined; const th=ringThick(r); if(!th) return null; return k==='RT'? String(th.t) : String(Math.round((parseFloat(r.A)+2*th.t)*100)/100); } if(k==='TOT'){ if(r.G==null||r.L1==null) return undefined; const t=Math.round((parseFloat(r.G)+parseFloat(r.L1))*10)/10; return String(t); } if(k==='WT'){const g=weightG(p,r); return g==null?undefined:fmtG(g)+' g';} if(k==='PPK'){const g=weightG(p,r); return g==null?undefined:String(Math.round(1000/g));} if(k==='WALL') return hasWall(p)? fmtWall(wall(r)) : undefined; return r[k]; }
 function sizeTxt(p,r){ return r.size + ' ' + p.unit; }
 
 function setTop(back,title,sub){
@@ -275,9 +278,9 @@ function product(p, showTable){
   </div>`;
 }
 function table(p){
-  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):k==='TOT'?true:p.rows.some(r=>r[k]!=null)); if(hasWeight(p)) cols.push('WT');
+  const d=K[p.kind]; const cols=d.order.filter(k=>k==='WALL'?hasWall(p):(k==='TOT'||k==='RT'||k==='ROD')?true:p.rows.some(r=>r[k]!=null)); if(hasWeight(p)) cols.push('WT');
   const ex=(d.extra||[]).filter(k=>p.rows.some(r=>r[k]!=null));
-  const head = [['size',p.unit],...cols.map(k=>[k,k==='WT'?'Weight ≈':(lab(p.kind,k)[2]||lab(p.kind,k)[0])]),['cat','Cat No.'],...ex.map(k=>[k,lab(p.kind,k,true)[0]])];
+  const head = [['size',p.unit],...cols.map(k=>[k,k==='WT'?'Weight ≈':k==='RT'?'T ≈':k==='ROD'?'OD ≈':(lab(p.kind,k)[2]||lab(p.kind,k)[0])]),['cat','Cat No.'],...ex.map(k=>[k,lab(p.kind,k,true)[0]])];
   return `<div class="hint" style="margin-bottom:8px">Tap any row to open it big · बड़ा देखने के लिए लाइन दबाएँ</div><div class="tblwrap"><table><thead><tr>${head.map(h=>`<th>${esc(h[1])}</th>`).join('')}</tr></thead><tbody>${
     p.rows.map((r,i)=>`<tr onclick="location.hash='#${p.id}-s${i}'">${head.map(([k])=>{const v=k==='size'?r.size:val(p,r,k);return `<td class="${k==='size'||k==='cat'?'k':''}">${v==null?'–':esc(v)}</td>`}).join('')}</tr>`).join('')
   }</tbody></table></div>`;
@@ -290,14 +293,14 @@ function card(p,r,k,isKey,extra){
   const na = v==null;
   const unit = NOUNIT.has(k)?'':'<span class="u">mm</span>';
   return `<div class="dc ${isKey?'key':''} ${na?'na':''}"><div class="lbl">${esc(en)}${sym?`<span class="sym">${esc(sym)}</span>`:''}</div><div class="hi">${esc(hi)}</div>
-    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${k==='TOT'?'<div class="calc">✓ Calculated: G + L-1</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
+    <div class="val">${na?'Not in catalogue':esc(v)+unit}</div>${k==='WALL'?'<div class="calc">✓ Calculated: (OD − ID) ÷ 2</div>':''}${(k==='RT'||k==='ROD')?(ringThick(r)&&ringThick(r).src==='cat'?'<div class="calc">✓ Calculated from catalogue: (øC of insulated version − øA) ÷ 2</div>':'<div class="calc warnc">≈ Approximate standard value (not printed in catalogue). Check before production.</div>'):''}${k==='TOT'?'<div class="calc">✓ Calculated: G + L-1</div>':''}${k==='WT'?'<div class="calc">Estimated from the dimensions (aluminium 2.70 g/cm³). Check by weighing a few pieces.</div>':''}</div>`;
 }
 function detail(p,i){
   const r=p.rows[i]; if(!r){location.hash='#'+p.id;return;}
   const d=K[p.kind];
   setTop(true, sizeTxt(p,r)+(r.bolt?' · '+r.bolt:''), p.name);
   const keys=d.key.filter(k=>k!=='WALL'||hasWall(p)); if(hasWeight(p)) keys.push('WT');
-  const rest=d.order.filter(k=>!keys.includes(k) && (k==='WALL'?hasWall(p):(r[k]!=null || p.rows.some(x=>x[k]!=null)))); if(hasWeight(p)) rest.push('PPK');
+  const rest=d.order.filter(k=>!keys.includes(k) && (k==='WALL'?hasWall(p):(k==='ROD'||r[k]!=null || p.rows.some(x=>x[k]!=null)))); if(hasWeight(p)) rest.push('PPK');
   const ex=(d.extra||[]).filter(k=>r[k]!=null);
   $app.innerHTML = `<div class="${p.group}">
     <div class="dhead"><div class="big">${esc(sizeTxt(p,r))}</div><div class="sub">${esc(p.name)}<br>${esc(p.hi)}</div>

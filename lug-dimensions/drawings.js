@@ -144,7 +144,9 @@ function reducer(p, r, show){
   c.add(`<line class="ctr" x1="${x0-10}" y1="${r1(ym)}" x2="${r1(xe+10)}" y2="${r1(ym)}"/>`);
   c.vdim(x0 - 24, ym-Cw/2, ym+Cw/2, c.lbl('øC', r.C), 'left', x0, x0);
   c.vdim(x0 + B*s*0.3, ym-Aw/2, ym+Aw/2, c.lbl('øA', r.A), 'right');
-  const yc = ym + Cw/2 + 36;
+  const xt = x0 + B*s*0.72;
+  c.tdim(true, xt, ym+Aw/2, ym+Cw/2, c.lbl('T', wallTxt(r)), xt + 8, ym + Cw/2 + 14, 'start');
+  const yc = ym + Cw/2 + 44;
   c.hdim(x0, xb, yc, c.lbl('B', r.B), ym+Cw/2, ym+Cw/2, true);
   c.hdim(xb, xk, yc + 44, c.lbl('K', r.K), ym+Cw/2, ym+Dw/2, true);
   c.hdim(xk, xe, yc, c.lbl('G+H', r.GH), ym+Dw/2, ym+Dw/2, true);
@@ -172,7 +174,9 @@ function pin(p, r, show){
   c.vdim(x0 - 24, ym-Cw/2, ym+Cw/2, c.lbl('øC', r.C), 'left', x0, x0);
   c.vdim(x0 + B*s*0.35, ym-Aw/2, ym+Aw/2, c.lbl('øA', r.A), 'right');
   c.vdim(xe + 24, ym-Dw/2, ym+Dw/2, c.lbl('D', r.D), 'right', xe, xe);
-  const yc = ym + Cw/2 + 36;
+  const xw = x0 + B*s*0.75;
+  c.tdim(true, xw, ym+Aw/2, ym+Cw/2, c.lbl('T', wallTxt(r)), xw + 8, ym + Cw/2 + 14, 'start');
+  const yc = ym + Cw/2 + 44;
   c.hdim(x0, xb, yc, c.lbl('B', r.B), ym+Cw/2, ym+Cw/2, true);
   c.hdim(x0, xe, yc + 46, c.lbl('J', r.J), yc+6, ym+Dw/2, true);
   return c.svg(xe + 130, yc + 96);
@@ -180,13 +184,25 @@ function pin(p, r, show){
 
 // ---------------- Ring / fork terminal ----------------
 // Catalogue convention: G = ring top to hole centre, L-1 = hole centre to barrel end.
+// Sheet thickness for ring / fork terminals. The catalogue does not print it.
+// Where the insulated version's øC is given, øC = øA + 2 x thickness, so T = (øC − øA) / 2.
+// Otherwise an approximate standard value by cable size is used.
+const RING_T_APPROX = {'1':0.8,'1.5':0.8,'2.5':0.8,'4.6':1.0,'4-6':1.0,'10':1.0,'16':1.2,'25':1.5,'35':1.5,'50':2.0,'70':2.0,'95':2.5,'120':2.5,'150':3.0};
+window.ringThick = function(r){
+  const A = num(r.A), C = num(r.C);
+  if (A != null && C != null && C > A) return {t: Math.round((C - A) / 2 * 100) / 100, src: 'cat'};
+  const t = RING_T_APPROX[r.size];
+  return t == null ? null : {t, src: 'approx'};
+};
 function ring(p, r, show){
   const c = new Ctx(show);
   const fork = p.id === 'cu-fork';
   const A=num(r.A), D=num(r.D), B=num(r.B), G=num(r.G), L=num(r.L1);
+  const th = window.ringThick(r), T = th ? th.t : A*0.25, OD = A + 2*T;
+  const tTxt = th ? String(th.t) : null, odTxt = th ? String(Math.round(OD*100)/100) : null;
   const s = 420 / (G + L);
-  const Dw = Math.max(D*s, 60), R = Dw/2, Aw = Math.max(A*s, 20);
-  const Bw = Math.min(Math.max(Aw*1.35, Aw + 12), Dw*0.85);
+  const Dw = Math.max(D*s, 60), R = Dw/2;
+  const Bw = Math.min(Math.max(OD*s, 30), Dw*0.9), Aw = Bw * A / OD, Tw = Math.max(T*s, 5);
   const xv = 126, cx = xv + 44 + R, y0 = 70, yc = y0 + G*s, yEnd = yc + L*s, yB = yEnd - B*s;
   const bm = boltDia(r.bolt), hr = Math.min(bm ? (bm+0.3)*s/2 : R*0.5, R*0.62);
   const ry = Math.min(R, yc - y0);
@@ -209,7 +225,17 @@ function ring(p, r, show){
   c.vdim(xl, yc, yEnd, c.lbl('L-1', r.L1), 'right', null, cx+Bw/2);
   c.hdim(cx-Aw/2, cx+Aw/2, yEnd + 36, c.lbl('øA', r.A), yEnd, yEnd, true);
   c.text(cx, fork ? (y0 + yc)/2 : yc, c.lbl('E', r.bolt));
-  return c.svg(xl + 140, yEnd + 88);
+  // side view: flat sheet (thickness T) bending into the barrel (outer dia OD)
+  const sx = xl + 150;
+  c.add(`<path class="body" d="M${r1(sx)},${r1(y0)} L${r1(sx+Tw)},${r1(y0)} L${r1(sx+Tw)},${r1(Math.max(yB-Bw*0.5, y0+10))} Q${r1(sx+Tw)},${r1(yB)} ${r1(sx+Bw)},${r1(yB)} L${r1(sx+Bw)},${r1(yEnd)} L${r1(sx)},${r1(yEnd)} Z"/>`);
+  const sa = sx + (Bw-Aw)/2;
+  c.add(`<path class="hid" d="M${r1(sa)},${r1(yEnd)} L${r1(sa)},${r1(yB)} M${r1(sa+Aw)},${r1(yEnd)} L${r1(sa+Aw)},${r1(yB)}"/>`);
+  c.add(`<line class="ex" x1="${r1(sx)}" y1="${r1(y0)}" x2="${r1(sx)}" y2="${r1(26)}"/><line class="ex" x1="${r1(sx+Tw)}" y1="${r1(y0)}" x2="${r1(sx+Tw)}" y2="${r1(26)}"/>`);
+  c.tdim(false, 32, sx, sx+Tw, c.lbl('T', tTxt ? tTxt + ' ≈' : null), sx+Tw+30, 32);
+  c.hdim(sx, sx+Bw, yEnd + 36, c.lbl('øOD', odTxt ? odTxt + ' ≈' : null), yEnd, yEnd, true);
+  c.text(cx, yEnd + 92, '<tspan class="vw">FRONT VIEW</tspan>');
+  c.text(sx + Bw/2, yEnd + 92, '<tspan class="vw">SIDE VIEW</tspan>');
+  return c.svg(sx + Math.max(Bw, Tw + 150) + 40, yEnd + 112);
 }
 
 const KIND = {lug, solder: lug, inline, reducer, pin, ring, ringbig: ring};
